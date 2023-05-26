@@ -71,9 +71,9 @@ To set up and run the Library Management System project on your local machine, f
 
 3. Configure the environment variables:
 
-   -For the frontend, create a .env file in the frontend directory and set the appropriate environment variables required for the frontend application.
+   - For the frontend, create a .env file in the frontend directory and set the appropriate environment variables required for the frontend application.
 
-   -For the backend, create a .env file in the backend directory and set the necessary environment variables required for the backend server.
+   - For the backend, create a .env file in the backend directory and set the necessary environment variables required for the backend server.
 
 4. Start the development servers:
 
@@ -90,37 +90,37 @@ To set up and run the Library Management System project on your local machine, f
 
 5. Access the Library Management System in your browser:
 
-   -Open your browser and navigate to http://localhost:3000 to access the application.
+   - Open your browser and navigate to http://localhost:3000 to access the application.
 
-Folder Structure
+## Folder Structure
 
-    The project follows a structured folder organization:
+The project follows a structured folder organization:
 
-    frontend: Contains the frontend application's source code.
-    backend: Contains the backend server's source code.
-    docs: Includes project-related documentation, such as this README file.
+1. frontend: Contains the frontend application's source code.
+2. backend: Contains the backend server's source code.
+3. docs: Includes project-related documentation, such as this README file.
 
-Contribution
+## Contribution
 
 Contributions to the Library Management System project are welcome. If you have any suggestions, improvements, or bug fixes, feel free to submit a pull request. Please ensure adherence to coding standards, write unit tests where applicable, and provide detailed commit messages.
 
-License
+## License
 
 The Library Management System project is open-source and released under the MIT License. You can freely use, modify, and distribute the codebase as per the license terms.
 
-Acknowledgments
+## Acknowledgments
 
 We would like to acknowledge the following technologies and resources that have contributed to the development of the Library Management System:
 
-    Vite
-    TypeScript
-    React.js
-    Node.js
-    Express.js
-    MongoDB
+    - Vite
+    - TypeScript
+    - React.js
+    - Node.js
+    - Express.js
+    - MongoDB
 
 Special thanks to all the contributors and developers involved in creating and maintaining these technologies.
 
-Contact
+## Contact
 
 If you have any questions, feedback, or issues related to the Library Management System project, feel free to reach out to us. We appreciate your interest and support!
