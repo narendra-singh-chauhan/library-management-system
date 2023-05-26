@@ -1,52 +1,49 @@
-Library Management System
+# Library Management System
 
 The Library Management System is a MERN (MongoDB, Express.js, React.js, Node.js) stack project designed to facilitate the management of libraries. It provides a user-friendly interface for library users, librarians, and administrators to perform various tasks efficiently. This README file serves as a guide to set up and understand the project.
 
-Features
+## Features
 
-Authentication and Authorization
+### Authentication and Authorization
 
-    Sign Up & Sign In: Users can create an account and sign in to access the system.
-    Role-based Access Control: The system supports different roles, including User, Librarian, and Admin. Each role has specific permissions and restrictions.
-    Access Tokens and Refresh Tokens: User authentication is implemented using access and refresh tokens for secure and seamless user experience.
+- **Sign Up & Sign In**: Users can create an account and sign in to access the system.
+- **Role-based Access Control**: The system supports different roles, including User, Librarian, and Admin. Each role has specific permissions and restrictions.
+- **Access Tokens and Refresh Tokens**: User authentication is implemented using access and refresh tokens for secure and seamless user experience.
 
-User Features
+### User Features
 
-    List of Libraries: Users can view a list of available libraries.
-    List of Books: Users can browse books available in the libraries.
-    Borrow Books: Users can request to borrow books from a library.
-    Return Books: Users can return borrowed books to the respective library.
-    Review Books: Users can provide feedback and reviews for books they have read.
+- **List of Libraries**: Users can view a list of available libraries.
+- **List of Books**: Users can browse books available in the libraries.
+- **Borrow Books**: Users can request to borrow books from a library.
+- **Return Books**: Users can return borrowed books to the respective library.
+- **Review Books**: Users can provide feedback and reviews for books they have read.
 
-Librarian Features
+### Librarian Features
 
-    Manage Own Library: Librarians can oversee and manage their assigned library.
-    Manage Books in Library: Librarians can add, update, and remove books from their library's inventory.
-    Manage Borrowed and Returned Books: Librarians can track borrowed and returned books within their library.
-    Manage Borrow Process: Librarians handle the borrowing process, verifying requests, and maintaining records.
+- **Manage Own Library**: Librarians can oversee and manage their assigned library.
+- **Manage Books in Library**: Librarians can add, update, and remove books from their library's inventory.
+- **Manage Borrowed and Returned Books**: Librarians can track borrowed and returned books within their library.
+- **Manage Borrow Process**: Librarians handle the borrowing process, verifying requests, and maintaining records.
 
-Admin Features
+### Admin Features
 
-    Manage Libraries: Administrators have control over the overall library system and can manage libraries.
-    Assign Librarian: Admins can assign librarians to specific libraries.
-    Manage Members: Admins can manage member accounts and profiles.
-    Generate and Analyze Metrics: Admins can access and analyze various metrics related to members and libraries.
+- **Manage Libraries**: Administrators have control over the overall library system and can manage libraries.
+- **Assign Librarian**: Admins can assign librarians to specific libraries.
+- **Manage Members**: Admins can manage member accounts and profiles.
+- **Generate and Analyze Metrics**: Admins can access and analyze various metrics related to members and libraries.
 
-Technology Stack
+## Technology Stack
 
-    The project utilizes the following technologies:
+The project utilizes the following technologies:
 
-    Frontend:
-
-    Vite: A fast and efficient frontend build tool.
-    TypeScript: A statically-typed superset of JavaScript for enhanced development experience.
-    React.js: A popular JavaScript library for building user interfaces.
-
-    Backend:
-
-    Node.js: A server-side JavaScript runtime environment.
-    Express.js: A minimalist web application framework for Node.js.
-    MongoDB: A NoSQL document database for data storage and retrieval.
+- Frontend:
+  - Vite: A fast and efficient frontend build tool.
+  - TypeScript: A statically-typed superset of JavaScript for enhanced development experience.
+  - React.js: A popular JavaScript library for building user interfaces.
+- Backend:
+  - Node.js: A server-side JavaScript runtime environment.
+  - Express.js: A minimalist web application framework for Node.js.
+  - MongoDB: A NoSQL document database for data storage and retrieval.
 
 Getting Started
 
