@@ -45,12 +45,16 @@ The project utilizes the following technologies:
   - Express.js: A minimalist web application framework for Node.js.
   - MongoDB: A NoSQL document database for data storage and retrieval.
 
-Getting Started
+## Getting Started
 
 To set up and run the Library Management System project on your local machine, follow these steps:
 
 1. Clone the repository from GitHub:
+
+   ```bash
    git clone https://github.com/narendra-singh-chauhan/library-management-system.git
+
+   ```
 
 2. Install dependencies for both the frontend and backend. Navigate to the project directory and run the following commands:
 
