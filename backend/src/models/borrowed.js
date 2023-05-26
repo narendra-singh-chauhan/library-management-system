@@ -8,9 +8,9 @@ const borrowedSchema = new mongoose.Schema({
         ref: 'Book',
         required: true,
     },
-    memberId: {
+    userId: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'Member',
+        ref: 'User',
         required: true,
     },
     borrowedDate: {

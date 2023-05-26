@@ -9,7 +9,8 @@ import useError from './middlewares/useError.js';
 // routes
 import libraryRoutes from './routes/library.js';
 import bookRoutes from './routes/book.js';
-import memberRoutes from './routes/member.js';
+import userRoutes from './routes/user.js';
+import borrowedBookRoutes from './routes/borrowed.js';
 // db
 import connectDB from './db.js';
 
@@ -29,7 +30,8 @@ app.use(useError);
 // routes middlewares
 app.use('/libraries', libraryRoutes);
 app.use('/books', bookRoutes);
-app.use('/members', memberRoutes);
+app.use('/users', userRoutes);
+app.use('/borrowed-books', borrowedBookRoutes);
 
 // routes
 app.get('/', (req, res) => {
