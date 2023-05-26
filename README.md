@@ -58,37 +58,39 @@ To set up and run the Library Management System project on your local machine, f
 
 2. Install dependencies for both the frontend and backend. Navigate to the project directory and run the following commands:
 
+   ```bash
    # Install frontend dependencies
-
    cd frontend
    npm install
 
    # Install backend dependencies
-
    cd ../backend
    npm install
 
+   ```
+
 3. Configure the environment variables:
 
-   For the frontend, create a .env file in the frontend directory and set the appropriate environment variables required for the frontend application.
+   -For the frontend, create a .env file in the frontend directory and set the appropriate environment variables required for the frontend application.
 
-   For the backend, create a .env file in the backend directory and set the necessary environment variables required for the backend server.
+   -For the backend, create a .env file in the backend directory and set the necessary environment variables required for the backend server.
 
 4. Start the development servers:
 
+   ```bash
    # Start the frontend development server
-
    cd frontend
    npm run dev
 
    # Start the backend server
-
    cd ../backend
    npm run dev
 
+   ```
+
 5. Access the Library Management System in your browser:
 
-   Open your browser and navigate to http://localhost:3000 to access the application.
+   -Open your browser and navigate to http://localhost:3000 to access the application.
 
 Folder Structure
 
