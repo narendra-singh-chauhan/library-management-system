@@ -1,10 +1,21 @@
-import React from 'react'
-import ReactDOM from 'react-dom/client'
-import App from './App.tsx'
-import './index.css'
+// packages
+import { StrictMode } from 'react';
+import ReactDOM from 'react-dom/client';
+import { BrowserRouter } from 'react-router-dom';
+import { HelmetProvider } from 'react-helmet-async';
+// routes
+import Routes from '@/routes.tsx';
+// theme
+import ThemeProvider from './theme';
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>,
-)
+  <StrictMode>
+    <HelmetProvider>
+      <BrowserRouter>
+        <ThemeProvider>
+          <Routes />
+        </ThemeProvider>
+      </BrowserRouter>
+    </HelmetProvider>
+  </StrictMode>
+);
