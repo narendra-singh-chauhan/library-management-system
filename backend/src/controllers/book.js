@@ -1,33 +1,23 @@
 // packages
 import mongoose from 'mongoose';
+import createError from 'http-errors';
 // models
 import Book from '../models/book.js';
-// utils
-import { onError } from '../utils/onError.js';
 
 
 // add a new book
 export const addBook = async (req, res, next) => {
     try {
-        const { libraryId, title, author, publication } = req.body;
-
-        if (!libraryId || !title || !author || !publication) {
-            return onError(400, 'LibraryId, title, author and publication parameter is required to add a new book.');
-        }
-
-        if (!mongoose.Types.ObjectId.isValid(libraryId)) {
-            return onError(400, 'Invalid library id.');
-        }
-
         const newBook = new Book(req.body);
         const savedBook = await newBook.save();
 
-        if (!savedBook) {
-            return onError(400, 'Failed to add new book.');
-        }
-
+        if (!books) throw createError.NotFound('Failed to add a new book.');
         res.status(201).json(savedBook);
     } catch (error) {
+        console.log(error);
+        if (error.name === 'ValidationError') {
+            return next(createError(422, error.message));
+        }
         next(error);
     }
 };
@@ -35,17 +25,10 @@ export const addBook = async (req, res, next) => {
 // get all books
 export const getAllBook = async (req, res, next) => {
     try {
-        const allBooks = await Book.find();
+        const books = await Book.find();
 
-        if (!allBooks) {
-            return onError(400, 'Failed to fetch books...');
-        }
-
-        if (allBooks.length === 0) {
-            return onError(404, 'No books found.');
-        }
-
-        res.status(200).json(allBooks);
+        if (!books) throw createError.NotFound('No books found.');
+        res.status(200).json(books);
     } catch (error) {
         next(error);
     }
@@ -55,19 +38,15 @@ export const getAllBook = async (req, res, next) => {
 export const getBookById = async (req, res, next) => {
     try {
         const bookId = req.params.bookId;
-
-        if (!mongoose.Types.ObjectId.isValid(bookId)) {
-            return onError(400, 'Invalid book id.');
-        }
-
         const book = await Book.findById(bookId);
 
-        if (!book) {
-            return onError(404, 'Book not found.');
-        }
-
+        if (!user) throw createError.NotFound('Book does not exist.');
         res.status(200).json(book);
     } catch (error) {
+        console.log(error);
+        if (error instanceof mongoose.CastError) {
+            return next(createError(400, 'Invalid book id.'));
+        }
         next(error);
     }
 };
@@ -76,22 +55,18 @@ export const getBookById = async (req, res, next) => {
 export const updateBookById = async (req, res, next) => {
     try {
         const bookId = req.params.bookId;
-
-        if (!mongoose.Types.ObjectId.isValid(bookId)) {
-            return onError(400, 'Invalid book id.');
-        }
-
         const updatedBook = await Book.findByIdAndUpdate(bookId, req.body, {
             new: true,
             runValidators: true,
         });
 
-        if (!updatedBook) {
-            return onError(400, 'Failed to update book.');
-        }
-
+        if (!updatedBook) throw createError.NotFound('Book does not exist.');
         res.status(200).json(updatedBook);
     } catch (error) {
+        console.log(error);
+        if (error instanceof mongoose.CastError) {
+            return next(createError(400, 'Invalid book id.'));
+        }
         next(error);
     }
 };
@@ -100,19 +75,15 @@ export const updateBookById = async (req, res, next) => {
 export const deleteBookById = async (req, res, next) => {
     try {
         const bookId = req.params.bookId;
-
-        if (!mongoose.Types.ObjectId.isValid(bookId)) {
-            return onError(400, 'Invalid book id.');
-        }
-
         const deletedBook = await Book.findByIdAndDelete(bookId);
 
-        if (!deletedBook) {
-            return onError(400, 'Failed to delete book.');
-        }
-
+        if (!deletedBook) throw createError.NotFound('Book does not exist.');
         res.status(200).json(deletedBook);
     } catch (error) {
+        console.log(error);
+        if (error instanceof mongoose.CastError) {
+            return next(createError(400, 'Invalid book id.'));
+        }
         next(error);
     }
 };

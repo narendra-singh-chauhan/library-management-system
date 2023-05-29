@@ -1,44 +1,23 @@
 // packages
 import mongoose from 'mongoose';
+import createError from 'http-errors';
 // models
 import User from '../models/user.js';
-// utils
-import { onError } from '../utils/onError.js';
 
 
 // add a new user
 export const addUser = async (req, res, next) => {
     try {
-        const { firstName, lastName, email, phone, dob, address, role } = req.body;
-
-        if (!firstName || !lastName || !email || !phone || !address) {
-            return res.status(400).json({ error: 'firstName, lastName, email, phone, and address parameters are required to add a new user.' });
-        }
-
-        const { street, city, state, postalCode } = address;
-
-        if (!street || !city || !state || !postalCode) {
-            return res.status(400).json({ error: 'street, city, state and postalCode fields are required in address.' });
-        }
-
-        const newUser = new User({
-            firstName,
-            lastName,
-            email,
-            phone,
-            dob,
-            address,
-            role,
-        });
-
+        const newUser = new User(req.body);
         const savedUser = await newUser.save();
 
-        if (!savedUser) {
-            return res.status(400).json({ error: 'Failed to add a new user.' });
-        }
-
+        if (!savedUser) throw createError(404, 'Failed to add a new user.');
         res.status(201).json(savedUser);
     } catch (error) {
+        console.log(error);
+        if (error.name === 'ValidationError') {
+            return next(createError(422, error.message));
+        }
         next(error);
     }
 };
@@ -46,13 +25,10 @@ export const addUser = async (req, res, next) => {
 // get all users
 export const getAllUser = async (req, res, next) => {
     try {
-        const allUsers = await User.find();
+        const users = await User.find();
 
-        if (!allUsers) {
-            return onError(400, 'Failed to fetch users...');
-        }
-
-        res.status(200).json(allUsers);
+        if (!users) throw createError.NotFound('No users found.');
+        res.status(200).json(users);
     } catch (error) {
         next(error);
     }
@@ -62,19 +38,15 @@ export const getAllUser = async (req, res, next) => {
 export const getUserById = async (req, res, next) => {
     try {
         const userId = req.params.userId;
-
-        if (!mongoose.Types.ObjectId.isValid(userId)) {
-            return onError(400, 'Invalid user id.');
-        }
-
         const user = await User.findById(userId);
 
-        if (!user) {
-            return onError(404, 'User not found.');
-        }
-
+        if (!user) throw createError.NotFound('User does not exist.');
         res.status(200).json(user);
     } catch (error) {
+        console.log(error);
+        if (error instanceof mongoose.CastError) {
+            return next(createError(400, 'Invalid user id.'));
+        }
         next(error);
     }
 };
@@ -83,22 +55,18 @@ export const getUserById = async (req, res, next) => {
 export const updateUserById = async (req, res, next) => {
     try {
         const userId = req.params.userId;
-
-        if (!mongoose.Types.ObjectId.isValid(userId)) {
-            return onError(400, 'Invalid user id.');
-        }
-
         const updatedUser = await User.findByIdAndUpdate(userId, req.body, {
             new: true,
             runValidators: true,
         });
 
-        if (!updatedUser) {
-            return onError(400, 'Failed to update user.');
-        }
-
+        if (!updatedUser) throw createError(404, 'User does not exist.');
         res.status(200).json(updatedUser);
     } catch (error) {
+        console.log(error);
+        if (error instanceof mongoose.CastError) {
+            return next(createError(400, 'Invalid user id.'));
+        }
         next(error);
     }
 };
@@ -107,19 +75,15 @@ export const updateUserById = async (req, res, next) => {
 export const deleteUserById = async (req, res, next) => {
     try {
         const userId = req.params.userId;
-
-        if (!mongoose.Types.ObjectId.isValid(userId)) {
-            return onError(400, 'Invalid user id.');
-        }
-
         const deletedUser = await User.findByIdAndDelete(userId);
 
-        if (!deletedUser) {
-            return onError(400, 'Failed to delete user.');
-        }
-
+        if (!deletedUser) throw createError(404, 'User does not exist.');
         res.status(200).json(deletedUser);
     } catch (error) {
+        console.log(error);
+        if (error instanceof mongoose.CastError) {
+            return next(createError(400, 'Invalid user id.'));
+        }
         next(error);
     }
 };

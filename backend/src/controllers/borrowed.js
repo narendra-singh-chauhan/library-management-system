@@ -1,37 +1,23 @@
 // packages
 import mongoose from 'mongoose';
+import createError from 'http-errors';
 // models
 import Borrowed from '../models/borrowed.js';
-// utils
-import { onError } from '../utils/onError.js';
 
 
 // add a book to borrowed books
 export const addBookToBorrowedBooks = async (req, res, next) => {
     try {
-        const { bookId, userId, borrowedDate, dueDate } = req.body;
-
-        if (!bookId || !userId || !borrowedDate || !dueDate) {
-            return onError(400, 'BookId, userId, borrowedDate and dueDate parameter is required to add a new library.');
-        }
-
-        if (!mongoose.Types.ObjectId.isValid(bookId)) {
-            return onError(400, 'Invalid book id.');
-        }
-
-        if (!mongoose.Types.ObjectId.isValid(userId)) {
-            return onError(400, 'Invalid user id.');
-        }
-
-        const newBorrowedBook = new Borrowed({ bookId, userId, borrowedDate, dueDate });
+        const newBorrowedBook = new Borrowed(req.body);
         const savedBorrowedBook = await newBorrowedBook.save();
 
-        if (!savedBorrowedBook) {
-            return onError(400, 'Error while adding book to borrowed books.');
-        }
-
+        if (!savedBorrowedBook) throw createError.NotFound('Failed to add a book to borrowed books.');
         res.status(200).json(savedBorrowedBook);
     } catch (error) {
+        console.log(error);
+        if (error.name === 'ValidationError') {
+            return next(createError(422, error.message));
+        }
         next(error);
     }
 };
@@ -41,10 +27,7 @@ export const getAllBorrowedBook = async (req, res, next) => {
     try {
         const borrowedBooks = await Borrowed.find();
 
-        if (!borrowedBooks) {
-            return onError(400, 'Error while fetching borrowed books.');
-        }
-
+        if (!borrowedBooks) throw createError.NotFound('No borrowed books found.');
         res.status(200).json(borrowedBooks);
     } catch (error) {
         next(error);
@@ -55,23 +38,15 @@ export const getAllBorrowedBook = async (req, res, next) => {
 export const getBorrowedBookById = async (req, res, next) => {
     try {
         const borrowedBookId = req.params.borrowedBookId;
+        const borrowedBook = await Borrowed.findById(borrowedBookId);
 
-        if (!borrowedBookId) {
-            return onError(400, 'Borrowed book id is required.');
-        }
-
-        if (!mongoose.Types.ObjectId.isValid(borrowedBookId)) {
-            return onError(400, 'Invalid borrowed book id.');
-        }
-
-        const BorrowedBook = await Borrowed.findById(borrowedBookId);
-
-        if (!BorrowedBook) {
-            return onError(400, 'Failed to get the borrowed book.');
-        }
-
-        res.status(200).json(BorrowedBook);
+        if (!borrowedBook) throw createError.NotFound('Borrowed book does not exist.');
+        res.status(200).json(borrowedBook);
     } catch (error) {
+        console.log(error);
+        if (error instanceof mongoose.CastError) {
+            return next(createError(400, 'Invalid borrowed book id.'));
+        }
         next(error);
     }
 };
@@ -80,26 +55,18 @@ export const getBorrowedBookById = async (req, res, next) => {
 export const updateBorrowedBookById = async (req, res, next) => {
     try {
         const borrowedBookId = req.params.borrowedBookId;
-
-        if (!borrowedBookId) {
-            return onError(400, 'Borrowed book id is required.');
-        }
-
-        if (!mongoose.Types.ObjectId.isValid(borrowedBookId)) {
-            return onError(400, 'Invalid borrowed book id.');
-        }
-
         const updatedBorrowedBook = await Borrowed.findByIdAndUpdate(borrowedBookId, req.body, {
             new: true,
             runValidators: true,
         });
 
-        if (!updatedBorrowedBook) {
-            return onError(400, 'Failed to update the borrowed book.');
-        }
-
+        if (!updatedBorrowedBook) throw createError.NotFound('Borrowed book does not exist.');
         res.status(200).json(updatedBorrowedBook);
     } catch (error) {
+        console.log(error);
+        if (error instanceof mongoose.CastError) {
+            return next(createError(400, 'Invalid borrowed book id.'));
+        }
         next(error);
     }
 };
@@ -108,23 +75,15 @@ export const updateBorrowedBookById = async (req, res, next) => {
 export const deleteBorrowedBookById = async (req, res, next) => {
     try {
         const borrowedBookId = req.params.borrowedBookId;
-
-        if (!borrowedBookId) {
-            return onError(400, 'Borrowed book id is required.');
-        }
-
-        if (!mongoose.Types.ObjectId.isValid(borrowedBookId)) {
-            return onError(400, 'Invalid borrowed book id.');
-        }
-
         const deletedBorrowedBook = await Borrowed.findByIdAndDelete(borrowedBookId);
 
-        if (!deletedBorrowedBook) {
-            return onError(400, 'Failed to delete the borrowed book.');
-        }
-
+        if (!deletedBorrowedBook) throw createError.NotFound('Borrowed book does not exist.');
         res.status(200).json(deletedBorrowedBook);
     } catch (error) {
+        console.log(error);
+        if (error instanceof mongoose.CastError) {
+            return next(createError(400, 'Invalid borrowed book id.'));
+        }
         next(error);
     }
 };

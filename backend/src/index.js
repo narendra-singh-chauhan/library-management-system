@@ -2,10 +2,8 @@
 import express from 'express';
 import cors from 'cors';
 import helmet from 'helmet';
-import bodyParser from 'body-parser';
 import dotenv from 'dotenv';
-// middlewares
-import useError from './middlewares/useError.js';
+import createError from 'http-errors';
 // routes
 import libraryRoutes from './routes/library.js';
 import bookRoutes from './routes/book.js';
@@ -23,9 +21,8 @@ const PORT = process.env.PORT || 5000;
 // middlewares
 app.use(cors());
 app.use(helmet());
-app.use(bodyParser.urlencoded({ extended: true }));
-app.use(bodyParser.json());
-app.use(useError);
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
 // routes middlewares
 app.use('/libraries', libraryRoutes);
@@ -36,6 +33,21 @@ app.use('/borrowed-books', borrowedBookRoutes);
 // routes
 app.get('/', (req, res) => {
     res.status(200).json({ message: "🙋 Hey, I'm your server." });
+});
+
+// 404 handler
+app.use((req, res, next) => {
+    next(createError.NotFound());
+});
+
+// error handler
+app.use((err, req, res, next) => {
+    const status = err.status || 500;
+    const message = err.message || 'Internal Server Error';
+
+    res.status(status).json({
+        error: { status, message }
+    });
 });
 
 // Connect to MongoDB

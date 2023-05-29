@@ -1,5 +1,5 @@
 // components
-import SignUp from '@/components/auth/SignUp';
+import SignUp from '@/components/auth';
 
 const Register = () => {
     return (

@@ -1,7 +1,7 @@
 // packages
 import { Helmet } from 'react-helmet-async';
 // components
-import SignUp from '@/components/auth/SignUp';
+import Auth from '@/components/auth';
 
 const Register = () => {
     return (
@@ -10,7 +10,7 @@ const Register = () => {
                 <title>Register</title>
             </Helmet>
 
-            <SignUp />
+            <Auth />
         </>
     );
 };
