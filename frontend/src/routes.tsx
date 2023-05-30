@@ -6,6 +6,7 @@ import AdminLayout from '@/layouts/admin';
 import LibrarianLayout from '@/layouts/librarian';
 // pages
 import UserRegister from '@/pages/user/Register';
+import UserLogin from '@/pages/user/Login';
 import AdminRegister from '@/pages/admin/Register';
 import LibrarianRegister from '@/pages/librarian/Register';
 
@@ -19,6 +20,7 @@ const Routes = () => (useRoutes([
         ]
     },
     { path: 'register', element: <UserRegister /> },
+    { path: 'login', element: <UserLogin /> },
     {
         path: '/admin',
         element: <AdminLayout />,
