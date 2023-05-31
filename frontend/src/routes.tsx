@@ -9,14 +9,19 @@ import UserRegister from '@/pages/user/Register';
 import UserLogin from '@/pages/user/Login';
 import AdminRegister from '@/pages/admin/Register';
 import LibrarianRegister from '@/pages/librarian/Register';
+import Libraries from '@/pages/user/Libraries';
+import UserHome from './pages/user';
+
 
 const Routes = () => (useRoutes([
     {
         path: '/',
         element: <UserLayout />,
         children: [
-            { index: true, element: <div>User Home Page</div> },
-            { path: 'libraries', element: <div>User Libraries Page</div> }
+            {
+                index: true, element: <UserHome />
+            },
+            { path: 'libraries', element: <Libraries /> }
         ]
     },
     { path: 'register', element: <UserRegister /> },

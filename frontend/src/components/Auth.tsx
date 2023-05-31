@@ -2,16 +2,26 @@
 import { Formik, Form, Field, ErrorMessage, FormikValues, FormikHelpers } from 'formik';
 import { Link } from 'react-router-dom';
 import { ObjectSchema } from 'yup';
-import { Box, Container, useTheme, Avatar, TextField, Grid, Button, Typography } from '@mui/material';
+import { Box, Container, useTheme, Avatar, TextField, Grid, Button, Typography, styled } from '@mui/material';
 import HowToRegIcon from '@mui/icons-material/HowToReg';
 
 
+// types
 type AuthProps<TValues extends FormikValues, TValidationSchema extends ObjectSchema<TValues>> = {
     authType?: 'Log In' | 'Create Account',
     initialValues: TValues,
     validationSchema: TValidationSchema,
     onSubmit: (values: TValues, formikHelpers: FormikHelpers<TValues>) => void,
 };
+
+// styled
+const StyledTextField = styled(TextField)({
+    '& .MuiFormHelperText-root': {
+        color: 'red',
+        fontSize: 14,
+        marginInline: 5,
+    },
+});
 
 const SignUp = <TValues extends FormikValues, TValidationSchema extends ObjectSchema<TValues>>({
     authType = 'Log In',
@@ -27,9 +37,9 @@ const SignUp = <TValues extends FormikValues, TValidationSchema extends ObjectSc
                 sx={{
                     marginTop: '100px',
                     boxShadow: theme.shadows[2],
-                    backgroundColor: theme.palette.grey[900],
+                    // backgroundColor: theme.palette.grey[900],
                     padding: theme.spacing(5),
-                    borderRadius: theme.spacing(2),
+                    borderRadius: theme.spacing(1),
                 }}
             >
                 <Box sx={{ display: 'flex', justifyContent: 'center', flexDirection: 'column', alignItems: 'center', gap: 1, mb: 5 }}>
@@ -55,7 +65,7 @@ const SignUp = <TValues extends FormikValues, TValidationSchema extends ObjectSc
                                             <Field
                                                 name="firstName"
                                                 label="First Name"
-                                                as={TextField}
+                                                as={StyledTextField}
                                                 helperText={<ErrorMessage name="firstName" />}
                                                 fullWidth
                                             />
@@ -64,7 +74,7 @@ const SignUp = <TValues extends FormikValues, TValidationSchema extends ObjectSc
                                             <Field
                                                 name="lastName"
                                                 label="Last Name"
-                                                as={TextField}
+                                                as={StyledTextField}
                                                 helperText={<ErrorMessage name="lastName" />}
                                                 fullWidth
                                             />
@@ -76,7 +86,7 @@ const SignUp = <TValues extends FormikValues, TValidationSchema extends ObjectSc
                                         name="email"
                                         label="Email Address"
                                         type="email"
-                                        as={TextField}
+                                        as={StyledTextField}
                                         helperText={<ErrorMessage name="email" />}
                                         fullWidth
                                     />
@@ -86,7 +96,7 @@ const SignUp = <TValues extends FormikValues, TValidationSchema extends ObjectSc
                                         name="password"
                                         label="Password"
                                         type="password"
-                                        as={TextField}
+                                        as={StyledTextField}
                                         helperText={<ErrorMessage name="password" />}
                                         fullWidth
                                     />
@@ -97,7 +107,7 @@ const SignUp = <TValues extends FormikValues, TValidationSchema extends ObjectSc
                                             <Field
                                                 name="phone"
                                                 label="Mobile Number"
-                                                as={TextField}
+                                                as={StyledTextField}
                                                 helperText={<ErrorMessage name="phone" />}
                                                 fullWidth
                                             />
@@ -106,7 +116,7 @@ const SignUp = <TValues extends FormikValues, TValidationSchema extends ObjectSc
                                             <Field
                                                 name="dob"
                                                 type="date"
-                                                as={TextField}
+                                                as={StyledTextField}
                                                 helperText={<ErrorMessage name="dob" />}
                                                 fullWidth
                                             />
@@ -115,7 +125,7 @@ const SignUp = <TValues extends FormikValues, TValidationSchema extends ObjectSc
                                             <Field
                                                 name="address.street"
                                                 label="Street"
-                                                as={TextField}
+                                                as={StyledTextField}
                                                 helperText={<ErrorMessage name="address.street" />}
                                                 fullWidth
                                             />
@@ -124,7 +134,7 @@ const SignUp = <TValues extends FormikValues, TValidationSchema extends ObjectSc
                                             <Field
                                                 name="address.city"
                                                 label="City"
-                                                as={TextField}
+                                                as={StyledTextField}
                                                 helperText={<ErrorMessage name="address.city" />}
                                                 fullWidth
                                             />
@@ -133,7 +143,7 @@ const SignUp = <TValues extends FormikValues, TValidationSchema extends ObjectSc
                                             <Field
                                                 name="address.state"
                                                 label="State"
-                                                as={TextField}
+                                                as={StyledTextField}
                                                 helperText={<ErrorMessage name="address.state" />}
                                                 fullWidth
                                             />
@@ -142,7 +152,7 @@ const SignUp = <TValues extends FormikValues, TValidationSchema extends ObjectSc
                                             <Field
                                                 name="address.postalCode"
                                                 label="Postal Code"
-                                                as={TextField}
+                                                as={StyledTextField}
                                                 helperText={<ErrorMessage name="address.postalCode" />}
                                                 fullWidth
                                             />

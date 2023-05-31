@@ -1,38 +1,54 @@
 // packages
 import { createApi, fetchBaseQuery, BaseQueryFn } from '@reduxjs/toolkit/query/react';
-// slices
+import { QueryReturnValue } from '@reduxjs/toolkit/dist/query/baseQueryTypes';
+// types 
+import { AccessToken, RefreshToken } from '@/types';
+//
 import { setAuth, logOut } from '../slices/auth';
+import { RootState } from '../rootReducer';
 
 
-const baseQuery: BaseQueryFn<any, any, any> = fetchBaseQuery({
-    baseUrl: process.env.REACT_APP_API_BASE_URI,
-    credentials: 'include',
+type RefreshTokenResponse = {
+    data: {
+        accessToken: AccessToken,
+        refreshToken: RefreshToken,
+    },
+}
+
+const baseQuery: BaseQueryFn = fetchBaseQuery({
+    baseUrl: import.meta.env.VITE_APP_API_BASE_URI as string,
+    // credentials: 'include',
     prepareHeaders: (headers, { getState }) => {
-        const token = getState().auth.user?.accessToken;
+        const token = (getState() as RootState).auth?.accessToken;
 
         if (token) {
-            headers.set('Authentication', `Bearer ${token}`);
+            headers.set('Authorization', `Bearer ${token}`);
         }
 
         return headers;
     }
 });
 
-const baseQueryWithReauth: BaseQueryFn<any, any, any> = async (args, api, extraOptions) => {
-    let result = baseQuery(args, api, extraOptions);
+const baseQueryWithReauth: BaseQueryFn = async (args, api, extraOptions) => {
+    let result = await baseQuery(args, api, extraOptions);
 
-    if (result?.error?.originalStatus === 403) {
-        // send refresh token to get new access token 
-        const newRefreshToken = await baseQuery('refresh-token', api, extraOptions);
+    console.log('result : baseQueryWithReauth: ', result);
 
-        if (newRefreshToken?.data) {
-            const user = api.getState().auth.user;
+    if (result.error || result.error === 'ExpiredAccessToken' || result.error === 'InvalidAccessToken') {
+        // send refresh token to get new access token
+        const response = await baseQuery('refresh-token', api, extraOptions) as RefreshTokenResponse;
 
-            // store the new access token 
-            api.dispatch(setAuth({ ...newRefreshToken.data, user }));
-            
+        console.log('response : baseQueryWithReauth: ', result);
+
+        if (response?.data) {
+            const user = (api.getState() as RootState).auth.user;
+
+            // store the new token
+            api.dispatch(setAuth({ ...response.data, user }));
+
             // retry the original query with new access token
             result = await baseQuery(args, api, extraOptions);
+            console.log('refetched result : baseQueryWithReauth: ', result);
         } else {
             api.dispatch(logOut());
         }
@@ -43,7 +59,7 @@ const baseQueryWithReauth: BaseQueryFn<any, any, any> = async (args, api, extraO
 
 const baseApi = createApi({
     baseQuery: baseQueryWithReauth,
-    endpoints: (builder) => ({})
+    endpoints: (build) => ({})
 });
 
 export default baseApi;

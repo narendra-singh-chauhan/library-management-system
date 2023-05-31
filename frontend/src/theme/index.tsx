@@ -14,12 +14,10 @@ type ThemeProviderProps = {
 const ThemeProvider = ({ children }: ThemeProviderProps) => {
     const theme = createTheme({
         palette: {
-            mode: 'dark',
-            background: {
-                default: '#242424'
-            }
+            mode: 'dark'
         }
     });
+
     theme.components = componentsOverrides(theme);
 
     return (

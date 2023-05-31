@@ -14,3 +14,13 @@ export type User = {
     dob: Date,
     address: Address
 };
+
+export type AccessToken = string | null;
+
+export type RefreshToken = string | null;
+
+export type Auth = {
+    user: User | null,
+    accessToken: AccessToken | null,
+    refreshToken: RefreshToken | null,
+};

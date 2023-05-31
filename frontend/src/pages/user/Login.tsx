@@ -2,8 +2,13 @@
 import { Helmet } from 'react-helmet-async';
 import { FormikHelpers } from 'formik';
 import * as Yup from 'yup';
+import { useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 // components
 import Auth from '@/components/Auth';
+// store
+import { useLoginMutation } from '@/store/api/auth';
+import { setAuth } from '@/store/slices/auth';
 
 // types
 type InitialValues = {
@@ -24,9 +29,20 @@ const validationSchema = Yup.object({
 });
 
 const Login = () => {
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
+    const [login] = useLoginMutation();
+
     const onSubmit = async (values: InitialValues, formikHelpers: FormikHelpers<InitialValues>) => {
-        console.log('on register: ', values);
-        formikHelpers.setFieldError('email', '');
+        try {
+            const response = await login(values).unwrap();
+            console.log('Register response: ', response);
+            dispatch(setAuth(response));
+            // redirect the user back to the home page
+            navigate('/');
+        } catch (error) {
+            console.log('Error while regestering the user:', error);
+        }
     }
 
     return (

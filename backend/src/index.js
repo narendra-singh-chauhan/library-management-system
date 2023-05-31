@@ -9,6 +9,9 @@ import libraryRoutes from './routes/library.js';
 import bookRoutes from './routes/book.js';
 import userRoutes from './routes/user.js';
 import borrowedBookRoutes from './routes/borrowed.js';
+import authRoutes from './routes/auth.js';
+// middlewares
+import verifyToken from './middlewares/verifyToken.js';
 // db
 import connectDB from './db.js';
 
@@ -25,10 +28,11 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 // routes middlewares
-app.use('/libraries', libraryRoutes);
+app.use('/libraries', verifyToken, libraryRoutes);
 app.use('/books', bookRoutes);
 app.use('/users', userRoutes);
 app.use('/borrowed-books', borrowedBookRoutes);
+app.use('/auth', authRoutes);
 
 // routes
 app.get('/', (req, res) => {

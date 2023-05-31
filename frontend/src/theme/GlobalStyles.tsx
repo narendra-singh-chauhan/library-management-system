@@ -25,6 +25,10 @@ const GlobalStyles = () => {
                     width: '100%',
                     height: '100%',
                 },
+                main: {
+                    width: '100%',
+                    minHeight: 'calc(100vh - 141px)',
+                },
                 input: {
                     '&[type=number]': {
                         MozAppearance: 'textfield',

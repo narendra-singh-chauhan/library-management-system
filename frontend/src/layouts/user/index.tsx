@@ -1,14 +1,17 @@
 // packages
-import { Outlet } from 'react-router-dom';
+import RequireAuth from '@/components/RequireAuth';
+import Header from '../Header';
+import Footer from '../Footer';
+// import { Outlet } from 'react-router-dom';
 
 const Layout = () => {
     return (
         <div className="app">
-            <header>User Header</header>
+            <Header />
             <main>
-                <Outlet />
+                <RequireAuth />
             </main>
-            <footer>User Footer</footer>
+            <Footer />
         </div>
     );
 };
