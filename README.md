@@ -120,7 +120,3 @@ We would like to acknowledge the following technologies and resources that have 
     - MongoDB
 
 Special thanks to all the contributors and developers involved in creating and maintaining these technologies.
-
-## Contact
-
-If you have any questions, feedback, or issues related to the Library Management System project, feel free to reach out to us. We appreciate your interest and support!
